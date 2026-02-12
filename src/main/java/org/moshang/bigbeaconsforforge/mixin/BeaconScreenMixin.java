@@ -1,7 +1,6 @@
 package org.moshang.bigbeaconsforforge.mixin;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.network.chat.Component;
@@ -13,11 +12,14 @@ import net.minecraft.world.inventory.BeaconMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import org.moshang.bigbeaconsforforge.BigBeaconsForForge;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @SuppressWarnings("removal")
 @Mixin(BeaconScreen.class)
@@ -91,11 +93,12 @@ public abstract class BeaconScreenMixin extends AbstractContainerScreen<BeaconMe
 
     // Level 3 Button stuff
 
-    @Shadow(remap = false)
-    private <T extends AbstractWidget & BeaconScreen.BeaconButton> void addBeaconButton(T button) {}
-
     @Shadow
     MobEffect primary;
+
+    @Shadow
+    @Final
+    private List<BeaconScreen.BeaconButton> beaconButtons;
 
     // just made an anonymous class instead of LevelThreeEffectButtonWidget
     @Inject(method = "init", at = @At("TAIL"))
@@ -118,7 +121,8 @@ public abstract class BeaconScreenMixin extends AbstractContainerScreen<BeaconMe
             }
         };
         effectButtonWidget.active = false;
-        this.addBeaconButton(effectButtonWidget);
+        this.addRenderableWidget(effectButtonWidget);
+        this.beaconButtons.add(effectButtonWidget);
     }
 
 
