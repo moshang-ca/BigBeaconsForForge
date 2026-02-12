@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.moshang.bigbeaconsforforge.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "bigbeaconsforforge.refmap.json",
+  "mixins": [
+    "BeaconBlockEntityMixin",
+    "BeaconMenuMixin",
+    "EffectRenderingInventoryScreenMixin",
+    "EnchantmentHelperMixin",
+    "FortuneInject",
+    "ServerPlayerEntityMixin"
+  ],
+  "client": [
+    "BeaconCancelButtonMixin",
+    "BeaconConfirmButtonMixin",
+    "BeaconScreenButtonMixin",
+    "BeaconScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
